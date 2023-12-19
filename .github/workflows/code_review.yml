@@ -1,0 +1,36 @@
+name: Automated Code Review Request
+on: 
+
+  pull_request:
+    types: [opened, reopened]
+
+jobs:
+  code_review:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run Linters/Checks
+
+      - name: Request Review
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const github = require('@actions/github'):
+            const context = github.context;
+
+
+            const revewers = ['username1', 'username2']; // Add reviewers
+            const pullRequestNumber = context.payload.pull_request.number;
+
+            const request = {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: pullRequestNumber,
+              reviewers: reviewers
+              };
+
+              await github.rest.pulls.requestReviewers(request);
